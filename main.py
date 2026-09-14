@@ -9,6 +9,7 @@ import cv2
 # Configuration
 WALLPAPER_IMAGE = "Capture2.png"
 VIDEO_FILE = "video1.mp4"
+BAT_FILE = "test.bat"
 IMAGES_TO_DISPLAY = [
     "Capture1.png",
     "Capture2.png",
@@ -49,6 +50,21 @@ def play_video(video_path):
         return True
     except Exception as e:
         print(f"✗ Erreur lors du lancement de la vidéo: {e}")
+        return False
+
+def run_bat_file(bat_path):
+    """Lance le fichier .bat"""
+    if not os.path.exists(bat_path):
+        print(f"Erreur: Le fichier {bat_path} n'existe pas!")
+        return False
+    
+    try:
+        # Lancer le fichier .bat
+        subprocess.Popen(bat_path)
+        print(f"✓ Fichier .bat lancé: {bat_path}")
+        return True
+    except Exception as e:
+        print(f"✗ Erreur lors du lancement du fichier .bat: {e}")
         return False
 
 def display_images_slideshow(image_list):
@@ -99,7 +115,7 @@ def main():
     print("=" * 50)
     
     # Vérifier que tous les fichiers existent
-    all_files = [WALLPAPER_IMAGE, VIDEO_FILE] + IMAGES_TO_DISPLAY
+    all_files = [WALLPAPER_IMAGE, VIDEO_FILE, BAT_FILE] + IMAGES_TO_DISPLAY
     missing_files = [f for f in all_files if not os.path.exists(f)]
     
     if missing_files:
@@ -120,8 +136,13 @@ def main():
     play_video(VIDEO_FILE)
     time.sleep(2)
     
-    # 3. Afficher les images en diaporama
-    print("\n3️⃣  Affichage du diaporama...")
+    # 3. Lancer le fichier .bat
+    print("\n3️⃣  Lancement du fichier .bat...")
+    run_bat_file(BAT_FILE)
+    time.sleep(1)
+    
+    # 4. Afficher les images en diaporama
+    print("\n4️⃣  Affichage du diaporama...")
     display_images_slideshow(IMAGES_TO_DISPLAY)
     
     print("\n" + "=" * 50)
